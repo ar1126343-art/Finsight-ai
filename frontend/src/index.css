@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Helvetica Regular";
+    src: url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.eot");
+    src: url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.svg#Helvetica Regular")format("svg");
+}
+
+:root {
+  font-family: "Helvetica Regular", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: #FDFBF7; /* Warm Luxury Cream Background */
+  color: #0F172A; /* High-contrast Dark Slate Text */
+}
+
+/* Crystal Clear High-Contrast Cream & White Cards */
+.glass-panel {
+  background: #FFFFFF;
+  border: 1px solid #E2D9C8;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05);
+}
+
+.glass-card {
+  background: #FBF9F4;
+  border: 1px solid #E5DEC9;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #0F172A 0%, #3b82f6 50%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F7F4EC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
