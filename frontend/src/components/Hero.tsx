@@ -8,10 +8,11 @@ import { BottomRightCorner } from './BottomRightCorner';
 interface HeroProps {
   onOpenPDF?: () => void;
   onOpenHelp?: () => void;
+  onOpenAuth?: () => void;
   onSelectTab?: (tab: string) => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenPDF, onOpenHelp, onSelectTab }) => {
+export const Hero: React.FC<HeroProps> = ({ onOpenPDF, onOpenHelp, onOpenAuth, onSelectTab }) => {
   return (
     <div className="w-full h-screen flex items-center justify-center p-3 md:p-5 bg-[#FDFBF7]">
       <section className="relative w-full max-w-[1536px] h-full rounded-[1.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col items-center bg-white/10 group border border-white/40">
@@ -27,7 +28,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPDF, onOpenHelp, onSelectTab }
 
         {/* Content Layer */}
         <div className="relative z-10 w-full h-full flex flex-col items-center">
-          <Navbar onOpenPDF={onOpenPDF} onOpenHelp={onOpenHelp} onSelectTab={onSelectTab} />
+          <Navbar onOpenPDF={onOpenPDF} onOpenHelp={onOpenHelp} onOpenAuth={onOpenAuth} onSelectTab={onSelectTab} />
 
           {/* Text Container */}
           <div className="w-full flex flex-col items-center pt-6 md:pt-10 px-6 text-center max-w-4xl z-10">

@@ -1,14 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Sparkles, ShieldCheck } from 'lucide-react';
+import { FileText, Sparkles, ShieldCheck, User } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 interface NavbarProps {
   onOpenPDF?: () => void;
   onOpenHelp?: () => void;
+  onOpenAuth?: () => void;
   onSelectTab?: (tab: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenPDF, onOpenHelp, onSelectTab }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenPDF, onOpenHelp, onOpenAuth, onSelectTab }) => {
+  const { user } = useAuth();
+
   const menuItems = [
     { label: 'Personal Expenses', sectionId: 'personal-finance-section' },
     { label: 'AI Stock Analysis', sectionId: 'stock-analysis-section' },
@@ -52,8 +56,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPDF, onOpenHelp, onSelectT
         ))}
       </ul>
 
-      {/* Right Action Button: Export Executive PDF */}
+      {/* Right Action Group */}
       <div className="flex items-center gap-3">
+        {/* User Account / Login Button */}
+        <button
+          onClick={onOpenAuth}
+          className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900 hover:bg-indigo-900 text-white font-extrabold text-xs transition-all shadow-sm cursor-pointer"
+          title="Manage Account & Sync State"
+        >
+          {user ? (
+            <>
+              <div className="w-5 h-5 rounded-full bg-amber-400 text-slate-950 font-mono text-[10px] font-extrabold flex items-center justify-center">
+                {user.name.charAt(0)}
+              </div>
+              <span className="hidden sm:inline max-w-[100px] truncate">{user.name}</span>
+            </>
+          ) : (
+            <>
+              <User className="w-3.5 h-3.5 text-amber-400" />
+              <span>Sign In / Register</span>
+            </>
+          )}
+        </button>
+
         <button
           onClick={onOpenHelp}
           className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-extrabold text-xs transition-colors border border-slate-300 cursor-pointer"

@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Search, 
-  TrendingUp, 
-  TrendingDown, 
-  BrainCircuit, 
-  RefreshCw, 
-  CheckCircle, 
-  AlertTriangle, 
+import {
+  Search,
+  TrendingUp,
+  TrendingDown,
+  BrainCircuit,
+  RefreshCw,
+  CheckCircle,
+  AlertTriangle,
   HelpCircle,
   Sparkles,
   Radio
 } from 'lucide-react';
-import { 
-  AreaChart, 
-  Area, 
-  XAxis, 
-  YAxis, 
-  Tooltip, 
-  ResponsiveContainer, 
-  LineChart, 
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
   Line,
-  CartesianGrid 
+  CartesianGrid
 } from 'recharts';
 
 interface StockAnalysisProps {
@@ -134,9 +134,8 @@ export const StockAnalysis: React.FC<StockAnalysisProps> = ({ ticker: propTicker
               Real-Time Stock Analysis & <span className="text-indigo-600 font-extrabold">AI Decision Thesis</span>
             </h2>
             {/* Live Streaming Indicator Badge */}
-            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold border ${
-              wsConnected ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-amber-50 text-amber-800 border-amber-300'
-            }`}>
+            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold border ${wsConnected ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-amber-50 text-amber-800 border-amber-300'
+              }`}>
               <Radio className={`w-3.5 h-3.5 ${wsConnected ? 'animate-pulse text-emerald-600' : 'text-amber-600'}`} />
               <span>{wsConnected ? 'WebSocket Live Stream' : 'Live yfinance Feed'}</span>
             </div>
@@ -206,9 +205,8 @@ export const StockAnalysis: React.FC<StockAnalysisProps> = ({ ticker: propTicker
               <span className="text-3xl font-extrabold text-slate-900 font-mono">
                 ${currentPrice.toFixed(2)}
               </span>
-              <span className={`text-sm font-extrabold font-mono flex items-center ${
-                stockData.change_pct >= 0 ? 'text-emerald-700' : 'text-rose-700'
-              }`}>
+              <span className={`text-sm font-extrabold font-mono flex items-center ${stockData.change_pct >= 0 ? 'text-emerald-700' : 'text-rose-700'
+                }`}>
                 {stockData.change_pct >= 0 ? <TrendingUp className="w-4 h-4 mr-0.5" /> : <TrendingDown className="w-4 h-4 mr-0.5" />}
                 {stockData.change_pct >= 0 ? '+' : ''}{stockData.change_pct}%
               </span>
@@ -239,29 +237,26 @@ export const StockAnalysis: React.FC<StockAnalysisProps> = ({ ticker: propTicker
         <div className="lg:col-span-2 p-6 rounded-2xl bg-white border border-slate-300 shadow-md space-y-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <h3 className="text-base font-extrabold text-slate-900">Technical Price History & Indicators</h3>
-            
+
             <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-300 text-xs font-extrabold">
               <button
                 onClick={() => setActiveChartTab('price')}
-                className={`px-3 py-1 rounded-lg transition-colors ${
-                  activeChartTab === 'price' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
-                }`}
+                className={`px-3 py-1 rounded-lg transition-colors ${activeChartTab === 'price' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
+                  }`}
               >
                 Price & MAs
               </button>
               <button
                 onClick={() => setActiveChartTab('rsi')}
-                className={`px-3 py-1 rounded-lg transition-colors ${
-                  activeChartTab === 'rsi' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
-                }`}
+                className={`px-3 py-1 rounded-lg transition-colors ${activeChartTab === 'rsi' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
+                  }`}
               >
                 RSI (14)
               </button>
               <button
                 onClick={() => setActiveChartTab('macd')}
-                className={`px-3 py-1 rounded-lg transition-colors ${
-                  activeChartTab === 'macd' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
-                }`}
+                className={`px-3 py-1 rounded-lg transition-colors ${activeChartTab === 'macd' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-700 hover:text-slate-900'
+                  }`}
               >
                 MACD
               </button>
@@ -276,8 +271,8 @@ export const StockAnalysis: React.FC<StockAnalysisProps> = ({ ticker: propTicker
                     <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
                     <XAxis dataKey="date" stroke="#64748B" tick={{ fontSize: 10, fontWeight: 700 }} />
                     <YAxis domain={['auto', 'auto']} stroke="#64748B" tick={{ fontSize: 10, fontWeight: 700 }} />
-                    <Tooltip 
-                      contentStyle={{ backgroundColor: '#0F172A', borderColor: '#3b82f6', color: '#FFF', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold' }} 
+                    <Tooltip
+                      contentStyle={{ backgroundColor: '#0F172A', borderColor: '#3b82f6', color: '#FFF', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold' }}
                     />
                     <Line type="monotone" dataKey="price" stroke="#0F172A" strokeWidth={2.5} dot={false} name="Close Price" />
                     <Line type="monotone" dataKey="ma20" stroke="#10b981" strokeWidth={1.5} dot={false} name="MA20 (Short)" />
@@ -320,9 +315,8 @@ export const StockAnalysis: React.FC<StockAnalysisProps> = ({ ticker: propTicker
                 <h3 className="text-base font-extrabold text-slate-900">Gemini AI Thesis Summary</h3>
               </div>
               {aiAnalysis?.analysis?.label && (
-                <span className={`px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider border shadow-sm ${
-                  getLabelBadgeColor(aiAnalysis.analysis.label)
-                }`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider border shadow-sm ${getLabelBadgeColor(aiAnalysis.analysis.label)
+                  }`}>
                   {aiAnalysis.analysis.label}
                 </span>
               )}

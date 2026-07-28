@@ -20,7 +20,7 @@ export const AIAuditLog: React.FC = () => {
   const fetchAuditLogs = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/audit-logs');
+      const res = await fetch('[https://finsight-ai-nxsm.onrender.com/api/audit-logs](https://finsight-ai-nxsm.onrender.com/api/audit-logs)');
       if (res.ok) {
         const data = await res.json();
         setLogs(data);
@@ -75,9 +75,9 @@ export const AIAuditLog: React.FC = () => {
     // Nested analysis object format
     if (resp.analysis) {
       const a = resp.analysis;
-      return { 
-        label: a.label || 'AI Decision', 
-        text: a.thesis || a.summary || a.ai_output || 'AI Analysis Generated' 
+      return {
+        label: a.label || 'AI Decision',
+        text: a.thesis || a.summary || a.ai_output || 'AI Analysis Generated'
       };
     }
 

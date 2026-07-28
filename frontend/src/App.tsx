@@ -8,6 +8,7 @@ import { ScreenerAndCompare } from './components/ScreenerAndCompare';
 import { AIAuditLog } from './components/AIAuditLog';
 import { PDFExportModal } from './components/PDFExportModal';
 import { UserGuideModal } from './components/UserGuideModal';
+import { AuthModal } from './components/AuthModal';
 import { ScrollToTopButton } from './components/ScrollToTopButton';
 
 export const App: React.FC = () => {
@@ -15,6 +16,7 @@ export const App: React.FC = () => {
   const [selectedTicker, setSelectedTicker] = useState('AAPL');
   const [showPDFModal, setShowPDFModal] = useState(false);
   const [showUserGuide, setShowUserGuide] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleSearchTicker = (ticker: string) => {
     setSelectedTicker(ticker);
@@ -26,6 +28,7 @@ export const App: React.FC = () => {
       <Hero
         onOpenPDF={() => setShowPDFModal(true)}
         onOpenHelp={() => setShowUserGuide(true)}
+        onOpenAuth={() => setShowAuthModal(true)}
         onSelectTab={setActiveTab}
       />
 
@@ -80,6 +83,13 @@ export const App: React.FC = () => {
         <UserGuideModal
           isOpen={showUserGuide}
           onClose={() => setShowUserGuide(false)}
+        />
+      )}
+
+      {showAuthModal && (
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
         />
       )}
     </main>
