@@ -42,6 +42,16 @@ class TransactionCreate(BaseModel):
     amount: float
     date: Optional[str] = None
 
+class UserRegister(BaseModel):
+    name: str
+    email: str
+    password: str
+    tier: Optional[str] = "Elite Pro Member"
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
 class BudgetGoalCreate(BaseModel):
     category: str
     target_amount: float
@@ -116,6 +126,63 @@ async def websocket_endpoint(websocket: WebSocket):
 @app.get("/api/health")
 def health_check():
     return {"status": "ok", "app": "FinSight AI API"}
+
+# ----------------- AUTHENTICATION ENDPOINTS ----------------- #
+
+@app.post("/api/auth/register")
+def register_user(req: UserRegister):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE email = ?", (req.email.lower().strip(),))
+    existing = cursor.fetchone()
+    if existing:
+        conn.close()
+        raise HTTPException(status_code=400, detail="An account with this email already exists.")
+    
+    user_id = f"usr-{uuid.uuid4().hex[:8]}"
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute(
+        "INSERT INTO users VALUES (?,?,?,?,?,?)",
+        (user_id, req.email.lower().strip(), req.name.strip(), req.password, req.tier, now_str)
+    )
+    conn.commit()
+    conn.close()
+    return {
+        "status": "success",
+        "user": {
+            "id": user_id,
+            "email": req.email.lower().strip(),
+            "name": req.name.strip(),
+            "tier": req.tier,
+            "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+        }
+    }
+
+@app.post("/api/auth/login")
+def login_user(req: UserLogin):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE email = ?", (req.email.lower().strip(),))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="No account found with this email address. Please Sign Up.")
+    
+    u_dict = dict(user)
+    if u_dict["password_hash"] != req.password:
+        raise HTTPException(status_code=401, detail="Incorrect password. Please verify and try again.")
+    
+    return {
+        "status": "success",
+        "user": {
+            "id": u_dict["id"],
+            "email": u_dict["email"],
+            "name": u_dict["name"],
+            "tier": u_dict["tier"],
+            "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+        }
+    }
 
 @app.get("/api/stocks/{ticker}")
 def get_stock_details(ticker: str):

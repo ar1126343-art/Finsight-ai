@@ -12,6 +12,18 @@ def init_db():
     conn = get_db()
     cursor = conn.cursor()
     
+    # Users authentication table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id TEXT PRIMARY KEY,
+            email TEXT UNIQUE NOT NULL,
+            name TEXT NOT NULL,
+            password_hash TEXT NOT NULL,
+            tier TEXT DEFAULT 'Elite Pro Member',
+            created_at TEXT NOT NULL
+        )
+    ''')
+
     # Transactions table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS transactions (
@@ -69,12 +81,21 @@ def init_db():
         )
     ''')
 
+    # Seed default user account if users table is empty
+    cursor.execute("SELECT COUNT(*) FROM users")
+    user_count = cursor.fetchone()[0]
+    if user_count == 0:
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        cursor.execute(
+            "INSERT INTO users VALUES (?,?,?,?,?,?)",
+            ("usr-default", "ahmed.raza@finsight.ai", "Ahmed Raza", "password123", "Elite Pro Member", now_str)
+        )
+
     # Seed initial demo data ONLY on first setup ever
     cursor.execute("SELECT value FROM system_settings WHERE key = 'initialized'")
     setting = cursor.fetchone()
     
     if not setting:
-        # Seed initial demo transactions
         demo_txs = [
             ("tx-1", "2026-07-20", "Apple Store - Mac Studio", "Electronics & Tech", "expense", 1999.00, "manual"),
             ("tx-2", "2026-07-19", "Bi-Weekly Salary Paycheck", "Income", "income", 4250.00, "plaid_sync"),
@@ -84,7 +105,6 @@ def init_db():
         ]
         cursor.executemany("INSERT OR IGNORE INTO transactions VALUES (?,?,?,?,?,?,?)", demo_txs)
 
-        # Seed initial budget goals
         demo_budgets = [
             ("bg-1", "Groceries", 600.0, 184.20),
             ("bg-2", "Dining & Drinks", 300.0, 145.00),
@@ -94,7 +114,6 @@ def init_db():
         ]
         cursor.executemany("INSERT OR IGNORE INTO budget_goals VALUES (?,?,?,?)", demo_budgets)
 
-        # Seed initial portfolio holdings
         demo_portfolio = [
             ("pf-1", "AAPL", 45.0, 175.50, "Technology", "2026-01-10"),
             ("pf-2", "NVDA", 25.0, 110.20, "Technology", "2026-02-15"),
@@ -130,4 +149,4 @@ def init_db():
 
 if __name__ == "__main__":
     init_db()
-    print("Database initialized successfully!")
+    print("Database initialized successfully with Users table!")
